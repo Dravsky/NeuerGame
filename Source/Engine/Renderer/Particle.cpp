@@ -1,4 +1,6 @@
 #include "Particle.h"
+#include "Renderer.h"
+
 namespace lola {
 	void Particle::Update(float dt)
 	{

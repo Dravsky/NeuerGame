@@ -1,4 +1,10 @@
 C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Actor.cpp
+C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Components\CircleCollisionComponent.cpp
+C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Components\Component.h
+C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Components\EnginePhysicsComponent.cpp
+C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Components\ModelRenderComponent.cpp
+C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Components\SpriteComponent.cpp
+C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Components\TextRenderComponent.cpp
 C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Emitter.cpp
-C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Resource\ResourceManager.h.cpp
+C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Object.cpp
 C:\Users\Erik\source\repos\NeuerGame\Source\Engine\Framework\Scene.cpp

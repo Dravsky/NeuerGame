@@ -1,4 +1,5 @@
 #include "Font.h"
+#include "Core/Logger.h"
 #include <SDL2-2.28.0/include/SDL_ttf.h>
 namespace lola
 {
@@ -14,25 +15,29 @@ namespace lola
 		}
 	}
 
-	void Font::Load(const std::string& filename, int fontSize)
-	{
-		m_ttfFont = TTF_OpenFont(filename.c_str(), fontSize);
-	}
-
 	bool Font::Create(std::string filename, ...)
 	{
 		va_list args;
-		va_start(args, filename);  // Initialize the va_list with the last known fixed argument
 
-		// va_arg - accesses the next variadic function arguments
+		va_start(args, filename);
+
 		int fontSize = va_arg(args, int);
 
-		va_end(args);  // Clean up the va_list
+		va_end(args);
 
-		Load(filename, fontSize);
+		return Load(filename, fontSize);
+	}
 
-		// Check if m_ttfFont is not nullptr
-		return m_ttfFont != nullptr;
+	bool Font::Load(const std::string& filename, int fontSize)
+	{
+		m_ttfFont = TTF_OpenFont(filename.c_str(), fontSize);
+
+		if (!m_ttfFont) 
+		{
+			WARNING_LOG("Failed to open font: " << filename);
+			return false;
+		}
+		return true;
 	}
 
 }

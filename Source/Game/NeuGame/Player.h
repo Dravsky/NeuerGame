@@ -1,15 +1,17 @@
 #pragma once
 #include "Framework/Actor.h"
+#include <Framework/Components/PhysicsComponent.h>
 
 class Player : public lola::Actor
 {
 public:
-	Player(float speed, float turnRate, const lola::Transform& transform, std::shared_ptr<lola::Model> model) :
-		Actor{ transform, model },
+	Player(float speed, float turnRate, const lola::Transform& transform) :
+		Actor{ transform },
 		m_speed{ speed },
 		m_turnRate{ turnRate }
 	{}
 
+	bool Initialize() override;
 	void Update(float dt) override;
 	void OnCollision(Actor* actor) override;
 
@@ -20,6 +22,8 @@ private:
 
 	float cooldown = 0.0f;
 	float hittimer = 2.0f;
+
+	lola::PhysicsComponent* m_physicsComponent = nullptr;
 
 	bool fireup = false;
 };

@@ -3,7 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NeuGame", "Source\Game\NeuGame\NeuGame.vcxproj", "{8F146F43-79D5-4D0B-9888-03AA49EB9D97}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NeuerGame", "Source\Game\NeuGame\NeuGame.vcxproj", "{8F146F43-79D5-4D0B-9888-03AA49EB9D97}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44} = {ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework", "Source\Engine\Framework\Framework.vcxproj", "{C4303C96-5DCE-47B3-8573-12739C63FE55}"
 EndProject
@@ -18,6 +21,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Input", "Source\Engine\Input\Input.vcxproj", "{17F628A0-BC74-474F-8D21-E620C0DCBB75}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer", "Source\Engine\Renderer\Renderer.vcxproj", "{95E5F5CC-222C-4AE4-9D49-50EF8CCBB4F0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "Source\Engine\Physics\Physics.vcxproj", "{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +80,14 @@ Global
 		{95E5F5CC-222C-4AE4-9D49-50EF8CCBB4F0}.Release|x64.Build.0 = Release|x64
 		{95E5F5CC-222C-4AE4-9D49-50EF8CCBB4F0}.Release|x86.ActiveCfg = Release|Win32
 		{95E5F5CC-222C-4AE4-9D49-50EF8CCBB4F0}.Release|x86.Build.0 = Release|Win32
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}.Debug|x64.ActiveCfg = Debug|x64
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}.Debug|x64.Build.0 = Debug|x64
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}.Debug|x86.ActiveCfg = Debug|Win32
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}.Debug|x86.Build.0 = Debug|Win32
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}.Release|x64.ActiveCfg = Release|x64
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}.Release|x64.Build.0 = Release|x64
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}.Release|x86.ActiveCfg = Release|Win32
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +99,7 @@ Global
 		{0A05C4B6-3087-49B7-BE49-9F06A9305377} = {FB3810D4-EB49-46AC-A0BD-5464B8B184AE}
 		{17F628A0-BC74-474F-8D21-E620C0DCBB75} = {FB3810D4-EB49-46AC-A0BD-5464B8B184AE}
 		{95E5F5CC-222C-4AE4-9D49-50EF8CCBB4F0} = {FB3810D4-EB49-46AC-A0BD-5464B8B184AE}
+		{ABC7DD89-CE02-4C79-9C2B-C127FF7DDF44} = {FB3810D4-EB49-46AC-A0BD-5464B8B184AE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CEB45470-6523-449F-B28F-89183A65B4CE}

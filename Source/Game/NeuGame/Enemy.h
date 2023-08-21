@@ -4,14 +4,16 @@
 class Enemy : public lola::Actor
 {
 public:
-	Enemy(float speed, float turnRate, const lola::Transform& transform, std::shared_ptr<lola::Model> model) :
-		Actor{ transform, model },
+	Enemy(float speed, float turnRate, const lola::Transform& transform) :
+		Actor{ transform },
 		m_speed{ speed },
 		m_turnRate{ turnRate }
 	{
 		m_fireRate = 2.0f;
 		m_fireTimer = m_fireRate;
 	}
+
+	bool Initialize() override;
 
 	void Update(float dt) override;
 	void OnCollision(Actor* actor) override;

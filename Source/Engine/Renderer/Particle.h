@@ -1,8 +1,8 @@
 #pragma once
 #include "Core/Core.h"
-#include "Renderer.h"
 
 namespace lola {
+
 	struct ParticleData
 	{
 		vec2 position;
@@ -24,7 +24,7 @@ namespace lola {
 			m_isActive = true;
 		}
 		void Update(float dt);
-		void Draw(Renderer& renderer);
+		void Draw(class Renderer& renderer);
 		friend class ParticleSystem;
 	private:
 		ParticleData m_data;

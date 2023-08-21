@@ -5,10 +5,34 @@
 #include "Input/InputSystem.h"
 #include "Renderer/Renderer.h"
 #include "Framework/Emitter.h"
-#include "Renderer/ModelManager.h"
+#include "Framework/Components/SpriteComponent.h"
+#include "Renderer/Texture.h"
+#include "Framework/Resource/ResourceManager.h"
+#include "Framework/Components/PhysicsComponent.h"
 
 #include <iostream>
+#include <Framework/Components/CircleCollisionComponent.h>
 
+
+bool Player::Initialize()
+{
+	Actor::Initialize();
+
+	// Cache off (saving off) a pointer to use later.
+	 m_physicsComponent = GetComponent<lola::PhysicsComponent>();
+	 auto collisionComponent = GetComponent<lola::CollisionComponent>();
+	 if (collisionComponent)
+	 {
+		 auto renderComponent = GetComponent<lola::RenderComponent>();
+		 if (renderComponent) 
+		 {
+			 float scale = transform.scale;
+			 collisionComponent->m_radius = renderComponent->GetRadius() * scale;
+		 }
+	 }
+
+	return true;
+}
 
 void Player::Update(float dt)
 {
@@ -20,48 +44,45 @@ void Player::Update(float dt)
 	float rotate = 0;
 	if (lola::g_inputSystem.GetKeyDown(SDL_SCANCODE_A)) rotate = -1;
 	if (lola::g_inputSystem.GetKeyDown(SDL_SCANCODE_D)) rotate = 1;
-	m_transform.rotation += rotate * m_turnRate * lola::g_time.GetDeltaTime();
+	transform.rotation += rotate * m_turnRate * lola::g_time.GetDeltaTime();
 
 	float thrust = 0;
 	if (lola::g_inputSystem.GetKeyDown(SDL_SCANCODE_W)) thrust = 1;
+	lola::vec2 forward = lola::vec2(0, -1).Rotate(transform.rotation);
 
-	lola::vec2 forward = lola::vec2(0, -1).Rotate(m_transform.rotation);
-	m_transform.position += forward * m_speed * thrust * lola::g_time.GetDeltaTime();
-	m_transform.position.x = lola::Wrap(m_transform.position.x, (float)lola::g_renderer.GetWidth());
-	m_transform.position.y = lola::Wrap(m_transform.position.y, (float)lola::g_renderer.GetHeight());
+	m_physicsComponent->ApplyForce(forward * m_speed * thrust);
+
+	transform.position.x = lola::Wrap(transform.position.x, (float)lola::g_renderer.GetWidth());
+	transform.position.y = lola::Wrap(transform.position.y, (float)lola::g_renderer.GetHeight());
 
 	// Fire Weapon
 	if (lola::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE) && !lola::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_SPACE))
 	{
-		// Create weapon
-		lola::Transform transform{ m_transform.position, m_transform.rotation, 1 };
-		std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>( 400.0f, transform, m_model );
-		weapon->m_tag = "Player";
+		auto weapon = INSTANTIATE(Weapon, "Rocket");
+		weapon->transform = { transform.position, transform.rotation + lola::DegreesToRadians(10.0f), 1 };
+		weapon->Initialize();
 		m_scene->Add(std::move(weapon));
 	}
 
 	if (fireup)
 	{
-		// Create weapon
-		lola::Transform transform{ m_transform.position, lola::randomf(1, 360), 1 };
-		std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(400.0f, transform, m_model);
-		weapon->m_lifespan = 0.2f;
-		weapon->m_tag = "Player";
+		auto weapon = INSTANTIATE(Weapon, "Rocket");
+		weapon->transform = { transform.position, transform.rotation + lola::randomf(1, 360), 1 };
+		weapon->Initialize();
+		weapon->lifespan = 0.35f;
 		m_scene->Add(std::move(weapon));
 	}
 }
 
 void Player::OnCollision(Actor* actor)
 {
-	if (actor->m_tag == "Enemy")
+	if (actor->tag == "Enemy")
 	{
 		if (cooldown <= 0)
 		{
 			m_health--;
 			cooldown = hittimer;
 		}
-
-		m_model = lola::g_manager.Get("shipred.txt");
 
 		if (m_health <= 0) 
 		{
@@ -77,23 +98,23 @@ void Player::OnCollision(Actor* actor)
 			data.speedMax = 250;
 			data.damping = 0.5f;
 			data.color = lola::Color{ 1, 1, 1, 1 };
-			auto emitter = std::make_unique<lola::Emitter>(this->m_transform, data);
-			emitter->m_lifespan = 1.0f;
+			auto emitter = std::make_unique<lola::Emitter>(this->transform, data);
+			emitter->lifespan = 1.0f;
 			m_scene->Add(std::move(emitter));
 
 			m_game->SetLives(m_game->GetLives() - 1);
 			m_game->SetMultiplier(1);
 			dynamic_cast<SpaceGame*>(m_game)->SetState(SpaceGame::eState::PlayerDead);
-			m_destroyed = true;
+			destroyed = true;
 		}
 	}
 
-	if (actor->m_tag == "Speedup")
+	if (actor->tag == "Speedup")
 	{
 		m_speed += 100;
 	}
 
-	if (actor->m_tag == "Fireup")
+	if (actor->tag == "Fireup")
 	{
 		fireup = true;
 	}

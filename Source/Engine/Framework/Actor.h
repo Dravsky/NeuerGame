@@ -1,25 +1,34 @@
 #pragma once
+#include "Object.h"
 #include "Core/Core.h"
 #include "Renderer/Model.h"
+#include "Components/Component.h"
 #include <memory>
 
 namespace lola {
-class Actor
+class Actor : public Object
 {
 	public:
+		CLASS_DECLARATION(Actor);
+
 		Actor() = default;
-		Actor(const lola::Transform& transform, std::shared_ptr<Model> model) :
-			m_transform{ transform },
-			m_model{ model } 
-		{}
 		Actor(const lola::Transform& transform) :
-			m_transform{ transform }
+			transform{ transform }
 		{}
+		Actor(const Actor& other);
+
+		virtual bool Initialize() override; // To keep overriding down the chain, declare as virtual.
+		virtual void OnDestroy() override;
 
 		virtual void Update(float dt);
 		virtual void Draw(lola::Renderer& renderer);
 
-		float GetRadius() { return (m_model) ? m_model->GetRadius() * m_transform.scale : 0; }		
+		void AddComponent(std::unique_ptr<Component> component);
+
+		template<typename T>
+		T* GetComponent();
+
+		float GetRadius() { return 30.0f; }
 		virtual void OnCollision(Actor* other) {}
 
 		class Scene* m_scene = nullptr;
@@ -27,13 +36,28 @@ class Actor
 		
 		class Game* m_game = nullptr;
 
-		lola::Transform m_transform;
-		std::string m_tag;
+	public:
+		Transform transform;
+		std::string tag;
 
-		float m_lifespan = -1.0f;
-		bool m_destroyed = false;
-
+		float lifespan = -1.0f;
+		bool destroyed = false;
+		bool persistent = false;
+		bool prototype = false;
+ 
 	protected:
-		std::shared_ptr<Model> m_model;
+		std::vector<std::unique_ptr<Component>> components;
 	};
+
+	template<typename T>
+	inline T* Actor::GetComponent()
+	{
+		for (auto& component : components)
+		{
+			T* result = dynamic_cast<T*>(component.get());
+			if (result) return result;
+		}
+
+		return nullptr;
+	}
 }

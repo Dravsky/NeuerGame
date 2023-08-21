@@ -4,11 +4,13 @@
 class Powerup : public lola::Actor
 {
 public:
-	Powerup(float speed, float turnRate, const lola::Transform& transform, std::shared_ptr<lola::Model> model) :
-		Actor{ transform, model },
+	Powerup(float speed, float turnRate, const lola::Transform& transform) :
+		Actor{ transform },
 		m_speed{ speed },
 		m_turnRate{ turnRate }
 	{}
+
+	bool Initialize() override;
 
 	void Update(float dt) override;
 	void OnCollision(Actor* actor) override;

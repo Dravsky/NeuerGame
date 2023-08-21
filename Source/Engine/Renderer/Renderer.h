@@ -1,6 +1,15 @@
 #pragma once
+
+#include "Font.h"
+#include "Model.h"
+#include "Particle.h"
+#include "ParticleSystem.h"
+#include "Text.h"
+#include "Texture.h"
+
 #include <SDL2-2.28.0/include/SDL.h>
 #include <string>
+
 namespace lola
 {
     class Renderer {
@@ -25,6 +34,7 @@ namespace lola
         int GetHeight() const { return m_height; }
 
         void DrawTexture(class Texture* texture, float x, float y, float angle = 0.0f);
+        void DrawTexture(class Texture* texture, const Transform& transform);
 
         SDL_Renderer* m_renderer = nullptr;
         SDL_Window* m_window = nullptr;

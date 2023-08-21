@@ -1,30 +1,20 @@
-#include "Core/Core.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/ModelManager.h"
-#include "Renderer/Font.h"
-#include "Renderer/Text.h"
-#include "Input/InputSystem.h"
-#include "Audio/AudioSystem.h"
-#include "Framework/Scene.h"
+#include "SpaceGame.h"
 #include "Player.h"
 #include "Enemy.h"
 
-#include "Renderer/Particle.h"
-#include "Renderer/ParticleSystem.h"
-#include "Framework/Emitter.h"
+#include "Input/InputSystem.h"
+#include "Audio/AudioSystem.h"
+#include "Physics/PhysicsSystem.h"
 
-#include "SpaceGame.h"
+#include "Core/Core.h"
+#include "Framework/Framework.h"
+#include "Renderer/Renderer.h"
 
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <memory>
 #include <array>
-
-#include "Core/Logger.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/Texture.h"
-#include "Framework/Resource/ResourceManager.h"
 
 using namespace std;
 
@@ -39,8 +29,7 @@ int main(int argc, char* argv[])
 
 	lola::g_inputSystem.Initialize();
 	lola::g_audioSystem.Initialize();
-
-	lola::res_t<lola::Texture> texture = lola::g_resources.Get<lola::Texture>("spacebackground.png", lola::g_renderer);
+	lola::PhysicsSystem::Instance().Initialize();
 
 	unique_ptr<SpaceGame> game = make_unique<SpaceGame>();
 	game->Initialize();
@@ -68,7 +57,6 @@ int main(int argc, char* argv[])
 		lola::g_renderer.BeginFrame();
 		lola::g_particleSystem.Draw(lola::g_renderer);
 		
-		lola::g_renderer.DrawTexture(texture.get(), 0.0f, 0.0f, 0.0f);
 		game->Draw(lola::g_renderer);
 
 		lola::g_renderer.EndFrame();

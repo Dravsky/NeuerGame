@@ -1,19 +1,19 @@
 #pragma once
 #include "Framework/Actor.h"
 
-class Weapon : public lola::Actor
+namespace lola 
 {
-public:
-	Weapon(float speed, const lola::Transform& transform, std::shared_ptr<lola::Model> model) :
-		Actor{ transform, model },
-		m_speed{ speed }
+	class Weapon : public Actor
 	{
-		m_lifespan = 2.0f;
-	}
+	public:
+		CLASS_DECLARATION(Weapon);
 
-	void Update(float dt) override;
-	void OnCollision(Actor* actor) override;
+		bool Initialize() override;
+		void Update(float dt) override;
 
-private:
-	float m_speed = 0;
-};
+		void OnCollision(Actor* actor);
+
+	private:
+		float speed = 0;
+	};
+}
