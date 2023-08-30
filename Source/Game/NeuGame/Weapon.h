@@ -1,5 +1,6 @@
 #pragma once
 #include "Framework/Actor.h"
+#include <Framework/Components/PhysicsComponent.h>
 
 namespace lola 
 {
@@ -11,9 +12,10 @@ namespace lola
 		bool Initialize() override;
 		void Update(float dt) override;
 
-		void OnCollision(Actor* actor);
+		void OnCollisionEnter(Actor* actor);
 
 	private:
 		float speed = 0;
+		PhysicsComponent * m_physicsComponent = nullptr;
 	};
 }

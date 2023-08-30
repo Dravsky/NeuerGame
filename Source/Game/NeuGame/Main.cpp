@@ -15,6 +15,8 @@
 #include <thread>
 #include <memory>
 #include <array>
+#include <map>
+#include <functional>
 
 using namespace std;
 
@@ -22,7 +24,7 @@ int main(int argc, char* argv[])
 {
 	lola::MemoryTracker::Initialize();
 	lola::seedRandom((unsigned int)time(nullptr));
-	lola::setFilePath("assets");
+	lola::setFilePath("Assets");
 
 	lola::g_renderer.Initialize();
 	lola::g_renderer.CreateWindow("CSC196", 800, 600);
@@ -41,16 +43,17 @@ int main(int argc, char* argv[])
 		// Update Engine
 		lola::g_time.Tick();
 		lola::g_inputSystem.Update();
-
 		if (lola::g_inputSystem.GetKeyDown(SDL_SCANCODE_ESCAPE))
 		{
 			quit = true;
 		}
 
 		// Update Game
-		game->Update(lola::g_time.GetDeltaTime());
 		lola::g_audioSystem.Update();
 		lola::g_particleSystem.Update(lola::g_time.GetDeltaTime());
+		lola::PhysicsSystem::Instance().Update(lola::g_time.GetDeltaTime());
+
+		game->Update(lola::g_time.GetDeltaTime());
 
 		// Draw Game
 		lola::g_renderer.SetColor(0, 0, 0, 0);

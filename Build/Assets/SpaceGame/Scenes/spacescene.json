@@ -1,0 +1,155 @@
+{
+	"actors": [
+		{
+			"type": "Actor",
+			"name": "Background",
+			"persistent": true,
+			"transform": {
+				"position": [ 400, 300 ],
+				"scale": 1,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "SpaceGame/Textures/SpaceBackground.png"
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title",
+			"persistent": true,
+			"transform": {
+				"position": [ 400, 300 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "SpaceGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 24,
+					"text": "Spacer"
+				}
+			]
+		},
+		{
+			"type": "Weapon",
+			"name": "Rocket",
+			"prototype": true,
+			"tag": "Player",
+			"lifespan": 1,
+			"transform": {
+				"position": [ 400, 300 ],
+				"scale": 1,
+				"rotation": 0
+			},
+			"speed": 10,
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "SpaceGame/Textures/Rocket.png"
+				},
+				{
+					"type": "Box2dPhysicsComponent",
+					"damping": 0,
+					"angularDamping": 2,
+					"gravityScale": 0
+				},
+				{
+					"type": "Box2dCollisionComponent",
+					"size": [ 32, 32 ],
+					"isTrigger": true,
+					"constrainingAngle": true
+				}
+			]
+		},
+		{
+			"type": "Enemy",
+			"name": "Enemy",
+			"prototype": true,
+			"tag": "Enemy",
+			"lifespan": -1,
+			"transform": {
+				"position": [ 400, 150 ],
+				"scale": 1,
+				"rotation": 0
+			},
+			"speed": 4,
+			"turnRate": 0.2,
+			"fireRate": 2,
+			"fireTimer": 2,
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "SpaceGame/Textures/Enemy.png"
+				},
+				{
+					"type": "Box2dPhysicsComponent",
+					"damping": 0.98,
+					"angularDamping": 2,
+					"gravityScale": 0
+				},
+				{
+					"type": "Box2dCollisionComponent",
+					"size": [ 32, 32 ]
+				}
+			]
+		},
+		{
+			"type": "Powerup",
+			"name": "Powerup",
+			"prototype": true,
+			"tag": "Fireup",
+			"lifespan": -1,
+			"transform": {
+				"position": [ 400, 300 ],
+				"scale": 1,
+				"rotation": 0
+			},
+			"speed": 200,
+			"health": 0,
+			"turnRate": 0.2,
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "SpaceGame/Textures/F.png"
+				},
+				{
+					"type": "CircleCollisionComponent"
+				}
+			]
+		},
+		{
+			"type": "Player",
+			"name": "Player",
+			"prototype": true,
+			"tag": "Player",
+			"lifespan": -1,
+			"transform": {
+				"position": [ 400, 300 ],
+				"scale": 1,
+				"rotation": 0
+			},
+			"speed": 4,
+			"turnRate": 0.2,
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "SpaceGame/Textures/Ship.png"
+				},
+				{
+					"type": "Box2dPhysicsComponent",
+					"damping": 0.98,
+					"angularDamping": 2,
+					"gravityScale": 0
+				},
+				{
+					"type": "Box2dCollisionComponent",
+					"size": [ 32, 32 ]
+				}
+			]
+		}
+	]
+}

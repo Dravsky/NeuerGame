@@ -14,7 +14,7 @@
 bool SpaceGame::Initialize()
 {
 	// create font / text objects
-	m_font = GET_RESOURCE(lola::Font, "arcadeclassic.ttf", 24);
+	m_font = GET_RESOURCE(lola::Font, "SpaceGame/Fonts/ArcadeClassic.ttf", 24);
 
 	m_scoreText = std::make_unique<lola::Text>(m_font);
 	m_scoreText->Create(lola::g_renderer, "0", lola::Color{ 1, 1, 1, 1 });
@@ -35,16 +35,20 @@ bool SpaceGame::Initialize()
 	m_roundText->Create(lola::g_renderer, "1", lola::Color{ 1, 1, 1, 1 });
 
 	// load auduio
-	lola::g_audioSystem.AddAudio("pew", "pew.wav");
+	lola::g_audioSystem.AddAudio("pew", "SpaceGame/Audio/pew.wav");
 
 	//load sprites
-	lola::res_t<lola::Texture> texture = GET_RESOURCE(lola::Texture, "ship.png", lola::g_renderer);
-	lola::res_t<lola::Texture> texture2 = GET_RESOURCE(lola::Texture, "rocket.png", lola::g_renderer);
+	lola::res_t<lola::Texture> texture = GET_RESOURCE(lola::Texture, "SpaceGame/Textures/ship.png", lola::g_renderer);
+	lola::res_t<lola::Texture> texture2 = GET_RESOURCE(lola::Texture, "SpaceGame/Textures/rocket.png", lola::g_renderer);
 
 	// create scene
 	m_scene = std::make_unique<lola::Scene>();
-	m_scene->Load("scene.json");
+	m_scene->Load("SpaceGame/Scenes/SpaceScene.json");
 	m_scene->Initialize();
+	
+	// add events
+	EVENT_SUBSCRIBE("OnAddPoints", SpaceGame::OnAddPoints);
+	EVENT_SUBSCRIBE("OnPlayerDead", SpaceGame::OnPlayerDead);
 
 	return true;
 }
@@ -78,23 +82,8 @@ void SpaceGame::Update(float dt)
 		m_scene->GetActorByName("Title")->active = false;
 	{
 		// Create player
-		std::unique_ptr<Player> player = std::make_unique<Player>(200.0f, lola::Pi, lola::Transform{ { 400, 300 }, 0, 1.0f });
-		player->tag = "Player";
-		player->m_game = this;
-
-		// Create components
-		auto renderComponent = CREATE_CLASS(SpriteComponent);
-		renderComponent->m_texture = GET_RESOURCE(lola::Texture, "ship.png", lola::g_renderer);
-		player->AddComponent(std::move(renderComponent));
-
-		auto physicsComponent = CREATE_CLASS(EnginePhysicsComponent)
-		physicsComponent->m_damping = 0.9999999702f;
-		player->AddComponent(std::move(physicsComponent));
-		
-		auto collisionComponent = CREATE_CLASS(CircleCollisionComponent);
-		collisionComponent->m_radius = 30.0f;
-		player->AddComponent(std::move(collisionComponent));
-
+		auto player = INSTANTIATE(Player, "Player");
+		player->transform = lola::Transform{ { 400, 300 }, 0, 1 };
 		player->Initialize();
 		m_scene->Add(move(player));
 
@@ -109,36 +98,21 @@ void SpaceGame::Update(float dt)
 			
 			for (size_t i = 0; i < m_rounds; i++)
 			{
-				std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(lola::randomf(75.0f, 140.0f), lola::Pi, lola::Transform{ { lola::randomf((float)lola::g_renderer.GetHeight()), lola::randomf((float)lola::g_renderer.GetWidth()) }, lola::randomf(lola::TwoPi), 1.0f });
-				enemy->tag = "Enemy";
-				enemy->m_game = this;
-				// Create components
-				auto renderComponent = CREATE_CLASS(SpriteComponent);
-				renderComponent->m_texture = GET_RESOURCE(lola::Texture, "enemy.png", lola::g_renderer);
-				enemy->AddComponent(std::move(renderComponent));
-
-				auto collisionComponent = CREATE_CLASS(CircleCollisionComponent);
-				collisionComponent->m_radius = 30.0f;
-				enemy->AddComponent(std::move(collisionComponent));
-
+				auto enemy = INSTANTIATE(Enemy, "Enemy");
+				enemy->transform = lola::Transform{ { lola::random(800), lola::random(600) }, lola::randomf(lola::TwoPi), 1 };
 				enemy->Initialize();
 				m_scene->Add(move(enemy));
 			} 
 			
 			if (m_rounds % 3 == 0) {
-				std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(lola::randomf(75.0f, 140.0f), lola::Pi, lola::Transform{ { lola::randomf((float)lola::g_renderer.GetHeight()), lola::randomf((float)lola::g_renderer.GetWidth()) }, lola::randomf(lola::TwoPi), 1.0f });
-				enemy->tag = "Enemy";
+				auto enemy = INSTANTIATE(Enemy, "Enemy");
+				enemy->transform = lola::Transform{ { lola::random(800), lola::random(600) }, lola::randomf(lola::TwoPi), 1 };
 				enemy->berserk = true;
-				enemy->m_game = this;
 
 				// Create components
 				auto renderComponent = CREATE_CLASS(SpriteComponent);
-				renderComponent->m_texture = GET_RESOURCE(lola::Texture, "enemy2.png", lola::g_renderer);
+				renderComponent->m_texture = GET_RESOURCE(lola::Texture, "SpaceGame/Textures/enemy2.png", lola::g_renderer);
 				enemy->AddComponent(std::move(renderComponent));
-
-				auto collisionComponent = CREATE_CLASS(CircleCollisionComponent);
-				collisionComponent->m_radius = 30.0f;
-				enemy->AddComponent(std::move(collisionComponent));
 
 				enemy->Initialize();
 				m_scene->Add(move(enemy));
@@ -146,41 +120,12 @@ void SpaceGame::Update(float dt)
 
 			m_rounds++;
 
-			if (m_rounds % 2 == 0) {
-
-				std::unique_ptr<Powerup> powerup = std::make_unique<Powerup>(lola::randomf(75.0f, 140.0f), lola::Pi, lola::Transform{ { lola::randomf((float)lola::g_renderer.GetHeight()), lola::randomf((float)lola::g_renderer.GetWidth()) }, lola::randomf(lola::TwoPi), 1.0f });
-				powerup->tag = "Fireup";
-				powerup->m_game = this;
-
-				auto renderComponent = CREATE_CLASS(SpriteComponent);
-				renderComponent->m_texture = GET_RESOURCE(lola::Texture, "f.png", lola::g_renderer);
-				powerup->AddComponent(std::move(renderComponent));
-
-				auto collisionComponent = CREATE_CLASS(CircleCollisionComponent);
-				collisionComponent->m_radius = 30.0f;
-				powerup->AddComponent(std::move(collisionComponent));
-
+			if (m_rounds % 3 == 0) {
+				auto powerup = INSTANTIATE(Powerup, "Powerup");
+				powerup->transform = lola::Transform{ { lola::random(800), lola::random(600) }, lola::randomf(lola::TwoPi), 1 };
 				powerup->Initialize();
 				m_scene->Add(move(powerup));
 			}
-			else {
-
-				std::unique_ptr<Powerup> powerup = std::make_unique<Powerup>(lola::randomf(75.0f, 140.0f), lola::Pi, lola::Transform{ { lola::randomf((float)lola::g_renderer.GetHeight()), lola::randomf((float)lola::g_renderer.GetWidth()) }, lola::randomf(lola::TwoPi), 1.0f });
-				powerup->tag = "Speedup";
-				powerup->m_game = this;
-
-				auto renderComponent = CREATE_CLASS(SpriteComponent);
-				renderComponent->m_texture = GET_RESOURCE(lola::Texture, "s.png", lola::g_renderer);
-				powerup->AddComponent(std::move(renderComponent));
-
-				auto collisionComponent = CREATE_CLASS(CircleCollisionComponent);
-				collisionComponent->m_radius = 30.0f;
-				powerup->AddComponent(std::move(collisionComponent));
-
-				powerup->Initialize();
-				m_scene->Add(move(powerup));
-			}
-
 		}
 
 		if (lola::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE) && !lola::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_SPACE))
@@ -193,7 +138,7 @@ void SpaceGame::Update(float dt)
 
 		break;
 	case SpaceGame::eState::PlayerDead:
-		if (m_lives == 0) m_state = eState::GameOver;
+		if (m_lives <= 0) m_state = eState::GameOver;
 		else m_state = eState::StartLevel;
 
 		break;
@@ -230,4 +175,23 @@ void SpaceGame::Draw(lola::Renderer& renderer)
 	m_livesText->Draw(renderer, 40, 80);
 	m_multiplierText->Draw(renderer, 40, 120);
 	m_roundText->Draw(renderer, 40, 160);
+}
+
+void SpaceGame::OnAddPoints(const lola::Event& event)
+{
+	m_score += std::get<int>(event.data);
+}
+
+void SpaceGame::OnPlayerDead(const lola::Event& event) 
+{
+	m_lives--;
+
+	if (m_lives <= 0)
+	{
+		m_state = eState::GameOver;
+	}
+	else 
+	{
+		m_state = eState::StartLevel;
+	}
 }

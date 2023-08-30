@@ -1,0 +1,225 @@
+{
+	"actors": [
+		{
+			"type": "Actor",
+			"name": "Background",
+			"persistent": true,
+			"transform": {
+				"position": [ 0, 300 ],
+				"scale": 1,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "PlatformGame/Textures/PlatformBackground.png"
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Background",
+			"persistent": true,
+			"transform": {
+				"position": [ 400, 300 ],
+				"scale": 1,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "PlatformGame/Textures/PlatformBackground.png"
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Background",
+			"persistent": true,
+			"transform": {
+				"position": [ 1200, 300 ],
+				"scale": 1,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "PlatformGame/Textures/PlatformBackground.png",
+					"flipH": true
+				}
+			]
+		},
+		{
+			"type": "Player",
+			"name": "Player",
+			"tag": "Player",
+			"prototype": true,
+			"persistent": true,
+			"speed": 3,
+			"jump": 5,
+			"transform": {
+				"position": [ 400, 300 ],
+				"scale": 1,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "SpriteAnimComponent",
+					"defaultSequenceName": "blueIdle",
+					"sequences": [
+						{
+							"name": "blueIdle",
+							"fps": 12,
+							"numColumns": 8,
+							"numRows": 1,
+							"startFrame": 1,
+							"endFrame": 8,
+							"textureName": "PlatformGame/Textures/Slime/BlueIdle.png"
+						},
+						{
+							"name": "redIdle",
+							"fps": 12,
+							"numColumns": 8,
+							"numRows": 1,
+							"startFrame": 1,
+							"endFrame": 8,
+							"textureName": "PlatformGame/Textures/Slime/RedIdle.png"
+						},
+						{
+							"name": "greenIdle",
+							"fps": 12,
+							"numColumns": 8,
+							"numRows": 1,
+							"startFrame": 1,
+							"endFrame": 8,
+							"textureName": "PlatformGame/Textures/Slime/GreenIdle.png"
+						}
+					]
+				},
+				{
+					"type": "Box2dPhysicsComponent",
+					"constrainAngle": true,
+					"gravityScale": 0.5
+				},
+				{
+					"type": "Box2dCollisionComponent",
+					"restitution": 0
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title01",
+			"persistent": true,
+			"transform": {
+				"position": [ 600, 250 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 24,
+					"text": "Slime  x  Slider",
+					"color": [ 0, 0, 0, 0 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title02",
+			"persistent": true,
+			"transform": {
+				"position": [ 600, 325 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 18,
+					"text": "Press JUMP to start!",
+					"color": [ 0, 0, 0, 0 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title03",
+			"persistent": true,
+			"transform": {
+				"position": [ 600, 400 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 12,
+					"text": "Jump height is determined by mouse position!",
+					"color": [ 0, 0, 0, 0 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title04",
+			"persistent": true,
+			"transform": {
+				"position": [ 40, 30 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 12,
+					"text": "1",
+					"color": [ 0, 0, 1, 0 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title05",
+			"persistent": true,
+			"transform": {
+				"position": [ 90, 30 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 12,
+					"text": "2",
+					"color": [ 0, 1, 0, 0 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title06",
+			"persistent": true,
+			"transform": {
+				"position": [ 140, 30 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 12,
+					"text": "3",
+					"color": [ 1, 0, 0, 0 ]
+				}
+			]
+		}
+	]
+}

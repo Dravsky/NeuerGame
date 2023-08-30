@@ -10,15 +10,12 @@ namespace lola
 	{
 		Actor::Initialize();
 
+		m_physicsComponent = GetComponent<PhysicsComponent>();
+
 		auto collisionComponent = GetComponent<CollisionComponent>();
 		if (collisionComponent)
 		{
-			auto renderComponent = GetComponent<RenderComponent>();
-			if (renderComponent)
-			{
-				float scale = transform.scale;
-				collisionComponent->m_radius = renderComponent->GetRadius() * scale;
-			}
+			
 		}
 
 		return true;
@@ -29,12 +26,13 @@ namespace lola
 		Actor::Update(dt);
 
 		lola::vec2 forward = lola::vec2(0, -1).Rotate(transform.rotation);
-		transform.position += forward * speed * lola::g_time.GetDeltaTime();
+		m_physicsComponent->SetVelocity(forward * speed);
+
 		transform.position.x = lola::Wrap(transform.position.x, (float)lola::g_renderer.GetWidth());
 		transform.position.y = lola::Wrap(transform.position.y, (float)lola::g_renderer.GetHeight());
 	}
 
-	void Weapon::OnCollision(Actor* actor)
+	void Weapon::OnCollisionEnter(Actor* actor)
 	{
 		if (actor->tag != tag)
 		{

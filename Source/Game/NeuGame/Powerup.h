@@ -1,22 +1,20 @@
 #pragma once
 #include "Framework/Actor.h"
 
-class Powerup : public lola::Actor
-{
-public:
-	Powerup(float speed, float turnRate, const lola::Transform& transform) :
-		Actor{ transform },
-		m_speed{ speed },
-		m_turnRate{ turnRate }
-	{}
+namespace lola {
+	class Powerup : public lola::Actor
+	{
+	public:
+		CLASS_DECLARATION(Powerup);
 
-	bool Initialize() override;
+		bool Initialize() override;
 
-	void Update(float dt) override;
-	void OnCollision(Actor* actor) override;
+		void Update(float dt) override;
+		void OnCollisionEnter(Actor* actor) override;
 
-private:
-	float m_speed = 0;
-	float m_health = 0;
-	float m_turnRate = 0;
-};
+	private:
+		float m_speed = 0;
+		float m_health = 0;
+		float m_turnRate = 0;
+	};
+}

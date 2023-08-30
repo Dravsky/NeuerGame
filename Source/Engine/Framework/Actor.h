@@ -16,6 +16,9 @@ class Actor : public Object
 			transform{ transform }
 		{}
 		Actor(const Actor& other);
+		virtual ~Actor() {
+			OnDestroy();
+		}
 
 		virtual bool Initialize() override; // To keep overriding down the chain, declare as virtual.
 		virtual void OnDestroy() override;
@@ -28,8 +31,8 @@ class Actor : public Object
 		template<typename T>
 		T* GetComponent();
 
-		float GetRadius() { return 30.0f; }
-		virtual void OnCollision(Actor* other) {}
+		virtual void OnCollisionEnter(Actor* other) {}
+		virtual void OnCollisionExit(Actor* other) {}
 
 		class Scene* m_scene = nullptr;
 		friend class Scene;

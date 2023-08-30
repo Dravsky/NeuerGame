@@ -26,6 +26,7 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Matrix22.h" />
     <ClInclude Include="Json.h" />
+    <ClInclude Include="Rect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileIO.cpp">

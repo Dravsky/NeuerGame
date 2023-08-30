@@ -61,6 +61,14 @@ namespace lola
 		return { _x, _y };
 	}
 
+	inline float Vector2::SignedAngle(const Vector2& v1, const Vector2& v2)
+	{
+		float y = v1.x * v2.y - v1.y * v2.x;
+		float x = v1.x * v2.x + v1.y * v2.y;
+
+		return std::atan2(y, x);
+	}
+
 
 	inline std::istream& operator >> (std::istream& stream, Vector2& v)
 	{

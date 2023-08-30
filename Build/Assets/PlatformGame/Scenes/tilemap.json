@@ -1,0 +1,234 @@
+{
+	"actors": [
+		{
+			"type": "Actor",
+			"name": "Orb",
+			"tag": "Orb",
+			"prototype": true,
+			"persistent": true,
+			"transform": {
+				"position": [ 1120, 200 ],
+				"scale": 0.25,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "SpriteAnimComponent",
+					"defaultSequenceName": "idle",
+					"sequences": [
+						{
+							"name": "idle",
+							"fps": 12,
+							"numColumns": 1,
+							"numRows": 1,
+							"startFrame": 1,
+							"endFrame": 1,
+							"textureName": "PlatformGame/Textures/Orb.png"
+						}
+					]
+				},
+				{
+					"type": "Box2dPhysicsComponent"
+				},
+				{
+					"type": "Box2dCollisionComponent",
+					"restitution": 0
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title06",
+			"persistent": true,
+			"transform": {
+				"position": [ 140, 30 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 12,
+					"text": "3",
+					"color": [ 1, 0, 0, 0 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title05",
+			"persistent": true,
+			"transform": {
+				"position": [ 90, 30 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 12,
+					"text": "2",
+					"color": [ 0, 1, 0, 0 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title04",
+			"persistent": true,
+			"transform": {
+				"position": [ 40, 30 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 12,
+					"text": "1",
+					"color": [ 0, 0, 1, 0 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "tile01",
+			"tag": "Ground",
+			"prototype": true,
+			"transform": {
+				"scale": 2
+			},
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "PlatformGame/Textures/Tilemap.png",
+					"source": [
+						96,
+						416,
+						32,
+						32
+					]
+				},
+				{
+					"type": "Box2dPhysicsComponent",
+					"isDynamic": false
+				},
+				{
+					"type": "Box2dCollisionComponent",
+					"restitution": 0
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "tile02",
+			"tag": "Ground",
+			"prototype": true,
+			"transform": {
+				"scale": 2
+			},
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "PlatformGame/Textures/Tilemap.png",
+					"source": [
+						0,
+						128,
+						32,
+						32
+					]
+				},
+				{
+					"type": "Box2dPhysicsComponent",
+					"isDynamic": false
+				},
+				{
+					"type": "Box2dCollisionComponent",
+					"restitution": 0
+				}
+			]
+		},
+				{
+			"type": "Actor",
+			"name": "Title07",
+			"persistent": true,
+			"transform": {
+				"position": [ 600, 350 ],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "PlatformGame/Fonts/ArcadeClassic.ttf",
+					"fontSize": 14,
+					"text": "You   won!   Press   4   to   restart!",
+					"color": [ 0, 0, 0, 0 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "tile03",
+			"tag": "Border",
+			"prototype": true,
+			"transform": {
+				"scale": 2
+			},
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "PlatformGame/Textures/Tilemap.png",
+					"source": [
+						0,
+						512,
+						32,
+						32
+					]
+				},
+				{
+					"type": "Box2dPhysicsComponent",
+					"isDynamic": false
+				},
+				{
+					"type": "Box2dCollisionComponent",
+					"restitution": 0
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "World",
+			"transform": {
+				"position": [
+					32,
+					32
+				]
+			},
+			"components": [
+				{
+					"type": "TilemapComponent",
+					"numColumns": 19,
+					"numRows": 10,
+					"size": [ 64, 64 ],
+					"tileNames": [ "", "tile01", "tile02", "tile03" ],
+					"tiles": [
+							3, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+							3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+							3, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 3,
+							3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+							3, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3,
+							3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+							3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+							3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+							1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+							1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+							]
+				}
+			]
+		}
+	]
+}

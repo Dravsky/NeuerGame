@@ -1,18 +1,21 @@
 #pragma once
 #include "Framework/Game.h"
+#include "Framework/Event/EventManager.h"
 #include "Renderer/Text.h"
 
-class SpaceGame : public lola::Game 
+class SpaceGame : public lola::Game, lola::IEventListener
 {
 public:
 	enum class eState
 	{
-	Title,
-	StartGame,
-	StartLevel,
-	Game,
-	PlayerDead,
-	GameOver
+		Title,
+		StartGame,
+		StartLevel,
+		Game,
+		PlayerDeadStart,
+		PlayerDead,
+		GameOverStart,
+		GameOver
 	};
 
 public:
@@ -23,6 +26,8 @@ public:
 		virtual void Draw(lola::Renderer& renderer) override;
 
 		void SetState(eState state) { m_state = state; }
+		void OnAddPoints(const lola::Event& event);
+		void OnPlayerDead(const lola::Event& event);
 
 private:
 	eState m_state = eState::Title;
